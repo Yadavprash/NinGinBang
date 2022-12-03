@@ -1,6 +1,7 @@
 import { InputHandler } from './input.js';
 import { Player } from './player.js';
 import { knife } from './particles.js';
+import { Background } from './background.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -12,16 +13,21 @@ window.addEventListener('load', function () {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.player = new Player(this);
+      this.groundMargin = 50;
       this.input = new InputHandler(this);
+      this.player = new Player(this);
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
       this.knifes = [];
       this.kunaiTimer = 0;
       this.maxKunai = 4;
       this.kunaiInterval = 100;
+      this.maxSpeed = 2;
+      this.gameSpeed = 0;
+      this.background = new Background(this);
     }
     update(deltatime) {
+      this.background.update();
       this.player.update(this.input.keys, deltatime);
 
       //kunaiThrowing
@@ -50,13 +56,14 @@ window.addEventListener('load', function () {
 
     draw(context) {
       context.clearRect(0, 0, this.width, this.height);
+      this.background.draw(context);
       this.knifes.forEach((kunai) => {
         kunai.draw(context);
       });
 
       this.player.draw(context);
       //kunaithrowing
-      console.log(this.knifes);
+      // console.log(this.knifes);
     }
   }
   const game = new Game(canvas.width, canvas.height);

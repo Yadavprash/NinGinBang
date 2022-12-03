@@ -20,12 +20,12 @@ export class Player {
     this.ninjaBoy = document.getElementById('ninjaBoy');
     this.playerWidth = 134;
     this.playerHeight = 124;
-    this.x = 0;
-    this.y = this.game.height - this.playerHeight;
+    this.x = 30;
+    this.y = this.game.height - this.playerHeight - this.game.groundMargin;
     this.frameX = 0;
     this.frameY = 1;
     this.frameTimer = 0;
-    this.fps = 20;
+    this.fps = 45;
     this.frameInterval = 1000 / this.fps;
     this.gravity = 0.3;
     this.vy = 0;
@@ -50,6 +50,7 @@ export class Player {
     ];
   }
   update(input, deltatime) {
+    // console.log(this.game.groundMargin);
     this.currentState.handleInput(input);
     //Framing according to deltatime
     if (this.frameTimer > this.frameInterval) {
@@ -121,10 +122,13 @@ export class Player {
     );
   }
   onGround() {
-    return this.y >= this.game.height - this.playerHeight;
+    return (
+      this.y >= this.game.height - this.playerHeight - this.game.groundMargin
+    );
   }
   setStates(state, speed) {
     this.currentState = this.states[state];
+    this.game.gameSpeed = this.game.maxSpeed * speed;
     this.currentState.enter();
   }
   checkCollision() {}
