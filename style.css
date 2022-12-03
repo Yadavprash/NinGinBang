@@ -8,7 +8,9 @@
   height: 600px;
 }
 
-#ninjaBoy,
-#ninjaGirl {
+#ninjaBoy {
+  display: none;
+}
+#kunai {
   display: none;
 }

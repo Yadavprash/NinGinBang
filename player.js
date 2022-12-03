@@ -1,3 +1,4 @@
+import { knife } from './particles.js';
 import {
   Attacking,
   Climbing,
@@ -32,7 +33,7 @@ export class Player {
     this.stateEnd = false;
     this.updraft = 0.03;
     this.stateTimer = 0;
-    this.maxStateTime = 2500;
+    this.maxStateTime = 1000;
     this.states = [
       new Standing(this.game),
       new Running(this.game),
@@ -98,6 +99,7 @@ export class Player {
         this.vy -= this.updraft;
       }
     }
+    //Landing mechanism
     if (this.currentState == this.states[10]) {
       this.y += this.vy;
       if (!this.onGround()) {

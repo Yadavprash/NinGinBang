@@ -1,5 +1,6 @@
 import { InputHandler } from './input.js';
 import { Player } from './player.js';
+import { knife } from './particles.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -15,14 +16,47 @@ window.addEventListener('load', function () {
       this.input = new InputHandler(this);
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
+      this.knifes = [];
+      this.kunaiTimer = 0;
+      this.maxKunai = 4;
+      this.kunaiInterval = 100;
     }
     update(deltatime) {
       this.player.update(this.input.keys, deltatime);
+
+      //kunaiThrowing
+      if (
+        this.player.currentState == this.player.states[11] ||
+        this.player.currentState == this.player.states[9]
+      ) {
+        if (this.input.keys.includes('d')) {
+          if (this.kunaiTimer > this.kunaiInterval) {
+            this.knifes.push(new knife(this));
+            this.kunaiTimer = 0;
+          } else {
+            this.kunaiTimer += deltatime;
+          }
+        }
+      }
+
+      this.knifes.forEach((kunai, index) => {
+        kunai.update();
+        if (kunai.markedForDeletion) this.knifes.splice(index, 1);
+      });
+      if (this.knifes.length > this.maxKunai) {
+        this.knifes = this.knifes.slice(0, this.maxKunai);
+      }
     }
 
     draw(context) {
       context.clearRect(0, 0, this.width, this.height);
+      this.knifes.forEach((kunai) => {
+        kunai.draw(context);
+      });
+
       this.player.draw(context);
+      //kunaithrowing
+      console.log(this.knifes);
     }
   }
   const game = new Game(canvas.width, canvas.height);

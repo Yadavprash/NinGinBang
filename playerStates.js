@@ -1,3 +1,5 @@
+import { knife } from './particles.js';
+
 const states = {
   STANDING: 0,
   RUNNING: 1,
