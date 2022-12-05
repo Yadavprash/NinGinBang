@@ -28,3 +28,7 @@
 #background_12 {
   display: none;
 }
+
+#skeletonIdle {
+  display: none;
+}

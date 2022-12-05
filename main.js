@@ -2,6 +2,7 @@ import { InputHandler } from './input.js';
 import { Player } from './player.js';
 import { knife } from './particles.js';
 import { Background } from './background.js';
+import { Skeleton } from './enemies.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -19,7 +20,10 @@ window.addEventListener('load', function () {
       this.player.currentState = this.player.states[0];
       this.player.currentState.enter();
       this.knifes = [];
+      this.enemies = [];
       this.kunaiTimer = 0;
+      this.enemyTimer = 0;
+      this.enemyInterval = 1000;
       this.maxKunai = 4;
       this.kunaiInterval = 100;
       this.maxSpeed = 2;
@@ -29,6 +33,18 @@ window.addEventListener('load', function () {
     update(deltatime) {
       this.background.update();
       this.player.update(this.input.keys, deltatime);
+
+      //Enemies Handled here
+      if (this.enemyTimer > this.enemyInterval) {
+        this.addEnemy();
+        this.enemyTimer = 0;
+      } else {
+        this.enemyTimer += deltatime;
+      }
+      this.enemies.forEach((enemy, index) => {
+        enemy.update();
+        if (enemy.markedForDeletion) this.enemies.splice(enemy, index);
+      });
 
       //kunaiThrowing
       if (
@@ -62,8 +78,16 @@ window.addEventListener('load', function () {
       });
 
       this.player.draw(context);
+      this.enemies.forEach((enemy) => {
+        enemy.draw(context);
+      });
       //kunaithrowing
       // console.log(this.knifes);
+    }
+    addEnemy() {
+      if (this.gameSpeed > 0 && Math.random() < 0.5)
+        this.enemies.push(new Skeleton(this));
+      console.log(this.enemies);
     }
   }
   const game = new Game(canvas.width, canvas.height);
