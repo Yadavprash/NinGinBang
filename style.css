@@ -29,6 +29,9 @@
   display: none;
 }
 
-#skeletonIdle {
+#skeletonIdle,
+#batEnemy,
+#dollEnemy,
+#eggEnemy {
   display: none;
 }

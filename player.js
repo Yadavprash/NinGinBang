@@ -1,4 +1,3 @@
-import { knife } from './particles.js';
 import {
   Attacking,
   Climbing,
