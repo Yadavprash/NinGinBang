@@ -49,9 +49,9 @@ export class Running extends State {
     } else if (this.game.player.onGround() && input.includes('ArrowUp')) {
       this.game.player.setStates(states.JUMPING, 1);
     } else if (this.game.player.onGround() && input.includes('ArrowLeft')) {
-      this.game.player.x--;
+      this.game.player.x -= 2;
     } else if (this.game.player.onGround() && input.includes('ArrowRight')) {
-      this.game.player.x++;
+      this.game.player.x += 2;
     } else if (input.includes('w')) {
       this.game.player.setStates(states.FLYING, 0.9);
     } else if (input.includes('a')) {

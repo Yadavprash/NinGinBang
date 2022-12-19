@@ -32,6 +32,10 @@
 #skeletonIdle,
 #batEnemy,
 #dollEnemy,
-#eggEnemy {
+#eggEnemy,
+#cloud_1,
+#cloud_2,
+#cloud_3,
+#fire {
   display: none;
 }
