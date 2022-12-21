@@ -31,6 +31,7 @@ class Enemy {
       this.y <= this.game.player.y + this.game.player.playerHeight
     ) {
       this.markedForDeletion = true;
+      this.game.score += 20;
     }
   }
   draw(context) {
@@ -95,7 +96,10 @@ export class EggEnemy extends Enemy {
         kunai.markedForDeletion = true;
         this.lives--;
       }
-      if (this.lives == 0) this.markedForDeletion = true;
+      if (this.lives == 0) {
+        this.markedForDeletion = true;
+        this.game.score += 10;
+      }
     });
   }
 }
@@ -135,7 +139,12 @@ export class DollEnemy extends Enemy {
         kunai.markedForDeletion = true;
         this.lives--;
       }
-      if (this.lives == 0) this.markedForDeletion = true;
+      if (this.lives == 0) {
+        this.markedForDeletion = true;
+        this.game.dollFlag = true;
+        this.game.Score += 100;
+        this.game.player.lifetime += 200;
+      }
     });
   }
 }
@@ -167,6 +176,7 @@ export class BatEnemy extends Enemy {
       ) {
         this.markedForDeletion = true;
         kunai.markedForDeletion = true;
+        this.game.score += 5;
       }
     });
   }

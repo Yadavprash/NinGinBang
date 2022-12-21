@@ -118,7 +118,10 @@ export class Dying extends State {
   enter() {
     this.game.player.frameY = 2;
   }
-  handleInput(input) {}
+  handleInput(input) {
+    if (this.game.gameOver == false)
+      this.game.player.setStates(states.RUNNING, 1);
+  }
 }
 export class Flying extends State {
   constructor(game) {

@@ -39,3 +39,16 @@
 #fire {
   display: none;
 }
+#slider,
+#speed {
+  position: relative;
+  width: 50%;
+  transform: translate(+50%, +50%);
+}
+#health {
+  position: absolute;
+  left: 38%;
+  top: 28%;
+  background: yellowgreen;
+  opacity: 80%;
+}

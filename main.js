@@ -5,6 +5,7 @@ import { Clouds_1, Clouds_2, Clouds_3, knife, Krail } from './particles.js';
 import { Background } from './background.js';
 import { BatEnemy, Skeleton, DollEnemy, EggEnemy } from './enemies.js';
 import { Trail } from './particles.js';
+import { UI } from './UI.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas1');
@@ -36,17 +37,33 @@ window.addEventListener('load', function () {
       this.maxEnemies = 15;
       this.maxKunai = 4;
       this.maxClouds = 12;
-      this.maxSpeed = 2;
+      this.maxSpeed = 4;
       this.maxParticles = 400;
       this.gameSpeed = 0;
       this.background = new Background(this);
       this.debug = false;
       this.dollFlag = true;
+
+      //GameStuff
+      this.UI = new UI(this);
       this.gameOver = false;
+      this.gameTime = 0;
+      this.fontColour = 'black';
+      this.score = 0;
+    }
+    restart() {
+      this.gameOver = false;
+      this.player.damageFlag = false;
+      this.player.lifetime = 500;
+      this.gameTime = 0;
+      this.score = 0;
+      animate(0);
     }
     update(deltatime) {
-      this.background.update();
+      this.background.update(deltatime);
       this.player.update(this.input.keys, deltatime);
+      this.gameTime += deltatime;
+      // console.log(this.gameTime);
 
       //Enemies Handled here
       if (this.enemyTimer > this.enemyInterval) {
@@ -98,7 +115,7 @@ window.addEventListener('load', function () {
         this.cloudTimer += deltatime;
       }
       this.clouds.forEach((cloud, index) => {
-        cloud.update();
+        cloud.update(deltatime);
         if (cloud.markedForDeletion) this.clouds.splice(index, 1);
       });
       if (this.clouds.length > this.maxClouds) {
@@ -127,6 +144,9 @@ window.addEventListener('load', function () {
       if (this.fires.length > this.maxFire) {
         this.fires = this.fires.slice(0, this.maxFire);
       }
+
+      //UI
+      this.UI.update();
     }
 
     draw(context) {
@@ -140,15 +160,18 @@ window.addEventListener('load', function () {
         particle.draw(context);
       });
       this.player.draw(context);
-      this.enemies.forEach((enemy) => {
-        enemy.draw(context);
-      });
       this.fires.forEach((fire, index) => {
         fire.draw(context);
       });
       //Drawing Clouds
       this.clouds.forEach((cloud, index) => {
         cloud.draw(context);
+      });
+
+      //UI
+      this.UI.draw(context);
+      this.enemies.forEach((enemy) => {
+        enemy.draw(context);
       });
     }
     addEnemy() {
@@ -165,16 +188,21 @@ window.addEventListener('load', function () {
       if (
         this.dollFlag &&
         this.gameSpeed > 0 &&
-        Math.floor(Math.random() * 2) === 1
+        Math.floor(Math.random() * 7) === 5
       ) {
         this.enemies.push(new DollEnemy(this));
         this.dollFlag = false;
       }
-
-      // console.log(this.enemies);
     }
   }
   const game = new Game(canvas.width, canvas.height);
+  const slider = document.getElementById('slider');
+  slider.value = game.maxSpeed;
+  showGameSpeed.innerHTML = game.maxSpeed;
+  slider.addEventListener('change', (e) => {
+    game.maxSpeed = e.target.value;
+    showGameSpeed.innerHTML = e.target.value;
+  });
 
   let lastTime = 0;
   function animate(timestamp) {
@@ -184,5 +212,6 @@ window.addEventListener('load', function () {
     game.draw(ctx);
     if (!game.gameOver) requestAnimationFrame(animate);
   }
+
   animate(0);
 });

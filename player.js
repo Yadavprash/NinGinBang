@@ -36,6 +36,7 @@ export class Player {
     this.stateTimer = 0;
     this.maxStateTime = 1000;
     this.lifetime = 500;
+    this.maxLifetime = 600;
     this.states = [
       new Standing(this.game),
       new Running(this.game),
@@ -127,7 +128,7 @@ export class Player {
         this.damageFlag = true;
       }
       if (this.damageFlag) {
-        this.lifetime--;
+        this.lifetime -= 3;
         this.damageFlag = false;
       }
       if (this.lifetime < 0) {
@@ -136,6 +137,12 @@ export class Player {
         this.game.gameOver = true;
       }
     });
+    if (this.lifetime > this.maxLifetime) this.lifetime = this.maxLifetime;
+    if (this.damageFlag)
+      this.ninjaBoy.setAttribute(
+        'style',
+        'opacity:0.5; -moz-opacity:0.5; filter:alpha(opacity=50)'
+      );
   }
   draw(context) {
     if (this.game.debug) {
