@@ -1,7 +1,14 @@
 /**@type{HTMLCanvasElement}*/
 import { InputHandler } from './input.js';
 import { Player } from './player.js';
-import { Clouds_1, Clouds_2, Clouds_3, knife, Krail } from './particles.js';
+import {
+  Clouds_1,
+  Clouds_2,
+  Clouds_3,
+  Dust,
+  knife,
+  Krail,
+} from './particles.js';
 import { Background } from './background.js';
 import { BatEnemy, Skeleton, DollEnemy, EggEnemy } from './enemies.js';
 import { Trail } from './particles.js';
@@ -22,6 +29,7 @@ window.addEventListener('load', function () {
       this.enemies = [];
       this.knifes = [];
       this.clouds = [];
+      this.dust = [];
       this.groundMargin = 50;
       this.input = new InputHandler(this);
       this.player = new Player(this);
@@ -41,9 +49,17 @@ window.addEventListener('load', function () {
       this.maxParticles = 400;
       this.gameSpeed = 0;
       this.background = new Background(this);
+      this.backgroundMusic = new Audio();
+      this.gameOverSound = new Audio();
+      this.fireball = new Audio();
+      this.fireball.src = './assets/sounds/fireball.mp3';
+      this.gameOverSound.src = './assets/sounds/game-over-2.ogg';
+      this.backgroundMusic.src = './assets/sounds/peace2.mp3';
+      this.fireballFlag = true;
+      this.backgroundMusic.volume = 0.2;
+      this.fireball.volume = 0.5;
       this.debug = false;
       this.dollFlag = true;
-
       //GameStuff
       this.UI = new UI(this);
       this.gameOver = false;
@@ -75,12 +91,20 @@ window.addEventListener('load', function () {
       this.enemies.forEach((enemy, index) => {
         enemy.update(deltatime);
         // console.log(this.enemies);
-        if (enemy.markedForDeletion) this.enemies.splice(index, 1);
+        if (enemy.markedForDeletion) {
+          this.dust.push(new Dust(this, enemy.x, enemy.y));
+          this.enemies.splice(index, 1);
+        }
       });
       if (this.enemies.length > this.maxEnemies) {
         this.enemies = this.enemies.slice(0, this.maxEnemies);
       }
-
+      //Dust post Death
+      this.dust.forEach((boom, index) => {
+        boom.update(deltatime);
+        if (boom.markedForDeletion) this.dust.splice(index, 1);
+      });
+      // console.log(this.dust);
       //kunaiThrowing
       if (
         this.player.currentState == this.player.states[11] ||
@@ -139,7 +163,14 @@ window.addEventListener('load', function () {
       //Handle hits
       this.fires.forEach((fire, index) => {
         fire.update();
-        if (fire.markedForDeletion) this.fires.splice(index, 1);
+        if (this.fireballFlag) {
+          this.fireballFlag = false;
+          this.fireball.play();
+        }
+        if (fire.markedForDeletion) {
+          this.fireballFlag = true;
+          this.fires.splice(index, 1);
+        }
       });
       if (this.fires.length > this.maxFire) {
         this.fires = this.fires.slice(0, this.maxFire);
@@ -147,6 +178,14 @@ window.addEventListener('load', function () {
 
       //UI
       this.UI.update();
+
+      //Sounds
+      if (!this.gameOver) {
+        this.backgroundMusic.play();
+      } else {
+        this.backgroundMusic.pause();
+        this.gameOverSound.play();
+      }
     }
 
     draw(context) {
@@ -168,6 +207,10 @@ window.addEventListener('load', function () {
         cloud.draw(context);
       });
 
+      //Dust
+      this.dust.forEach((boom, index) => {
+        boom.draw(context);
+      });
       //UI
       this.UI.draw(context);
       this.enemies.forEach((enemy) => {

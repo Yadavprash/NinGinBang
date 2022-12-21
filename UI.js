@@ -3,7 +3,7 @@ export class UI {
   constructor(game) {
     this.game = game;
     this.fontSize = 25;
-    this.fontFamily = 'Helvetica';
+    this.fontFamily = 'monospace';
     this.health = document.getElementById('health');
   }
   update() {
@@ -45,6 +45,7 @@ export class UI {
     context.restore();
 
     //gameOverMessage
+    context.fillStyle = 'green';
     if (this.game.gameOver) {
       context.textAlign = 'center';
       context.font = this.fontSize * 2 + 'px ' + this.fontFamily;
@@ -53,13 +54,20 @@ export class UI {
         this.game.width * 0.5,
         this.game.height * 0.5 - 20
       );
-      context.font = this.fontSize + 'px ' + this.fontFamily;
+      context.fillStyle = 'purple';
+      context.fillText(
+        'Ohh Yeah!',
+        this.game.width * 0.5 + 1,
+        this.game.height * 0.5 - 20 + 2
+      );
+      context.font = this.fontSize * 0.8 + 'px ' + this.fontFamily;
       context.fillText(
         'Shinobi to the End, You were amazing out there!',
         this.game.width * 0.5,
         this.game.height * 0.5 + 20
       );
-      context.font = this.fontSize * 0.8 + 'px ' + this.fontFamily;
+      context.fillStyle = 'red';
+      context.font = this.fontSize * 0.6 + 'px ' + this.fontFamily;
       context.fillText(
         'BELEIVE THAT! Press ENTER to continue',
         this.game.width * 0.5,

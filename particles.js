@@ -4,20 +4,31 @@ export class knife {
     this.height = 8;
     this.game = game;
     this.kunaiSpeed = 3.5;
+    this.kunaiThrow = new Audio();
+    this.kunaiThrow.src = './assets/sounds/kunai.wav';
+    this.soundFlag = true;
     this.image = document.getElementById('kunai');
     this.x = this.game.player.x + this.game.player.playerWidth / 2;
     this.y = this.game.player.y + this.game.player.playerHeight / 2.5;
     this.markedForDeletion = false;
   }
   update() {
+    if (this.soundFlag) {
+      this.kunaiThrow.play();
+      this.soundFlag = false;
+    }
     this.x += this.kunaiSpeed;
-    if (this.x > this.game.width) this.markedForDeletion = true;
+    if (this.x > this.game.width) {
+      this.markedForDeletion = true;
+      this.soundFlag = true;
+    }
   }
   draw(context) {
     if (this.game.debug) {
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
     context.strokeRect(this.x, this.y + 5, this.width - 5, this.height - 10);
+
     context.drawImage(
       this.image,
       0,
@@ -28,6 +39,47 @@ export class knife {
       this.y,
       this.width,
       this.height
+    );
+  }
+}
+export class Dust {
+  constructor(game, x, y) {
+    this.game = game;
+    this.x = x;
+    this.y = y;
+    this.image = document.getElementById('boom');
+    this.width = 200;
+    this.height = 179;
+    this.frameX = 0;
+    this.frameTimer = 0;
+    this.fps = 10;
+    this.frameInterval = 1000 / this.fps;
+    this.maxFrame = 4;
+    this.markedForDeletion = false;
+  }
+  update(deltatime) {
+    if (this.frameTimer > this.frameInterval) {
+      if (this.frameX >= this.maxFrame) {
+        this.frameX = 0;
+        this.markedForDeletion = true;
+      }
+      this.frameX++;
+      this.frameTimer = 0;
+    } else {
+      this.frameTimer += deltatime;
+    }
+  }
+  draw(context) {
+    context.drawImage(
+      this.image,
+      this.width * this.frameX,
+      0,
+      this.width,
+      this.height,
+      this.x,
+      this.y,
+      this.width / 2,
+      this.height / 2
     );
   }
 }
@@ -133,6 +185,7 @@ export class Fire {
     this.x = x;
     this.y = y;
     this.speedX = Math.random() * 1.5 - 0.5;
+
     this.speedY = 2.5;
     this.markedForDeletion = false;
     this.angle = 2;
@@ -143,11 +196,12 @@ export class Fire {
     this.angle += this.va;
     this.x += this.speedX + Math.cos(this.angle * 5);
     this.y += this.speedY;
+
     if (this.y > this.game.width - this.game.groundMargin) {
       this.markedForDeletion = true;
+      this.fireballFlag = true;
     }
     // console.log(this.game.fires);
-
     //handle collision
     if (
       this.x > this.game.player.x &&

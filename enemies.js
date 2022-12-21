@@ -1,11 +1,15 @@
 import { Fire } from './particles.js';
-
 class Enemy {
   constructor(game) {
     this.game = game;
     this.frameX = 0;
     this.frameY = 0;
     this.fps = 45;
+    this.monsterhurt = new Audio();
+    this.swordHit = new Audio();
+    this.monsterhurt.src = './assets/sounds/Monster_Hurt.wav';
+    this.swordHit.src = './assets/sounds/sword_hit.wav';
+    this.swordHit.volume = 1;
     this.x = this.width;
     this.markedForDeletion = false;
     this.frameInterval = 1000 / this.fps;
@@ -19,7 +23,7 @@ class Enemy {
     } else {
       this.frameTimer += deltatime;
     }
-    if (this.x < -this.width) this.markedForDeletion = true;
+    if (this.x < -this.width * 1.5) this.markedForDeletion = true;
 
     // console.log(this.x);
     //Sword Collision
@@ -31,6 +35,7 @@ class Enemy {
       this.y <= this.game.player.y + this.game.player.playerHeight
     ) {
       this.markedForDeletion = true;
+      this.swordHit.play();
       this.game.score += 20;
     }
   }
@@ -56,6 +61,9 @@ export class Skeleton extends Enemy {
   constructor(game) {
     super();
     this.game = game;
+    this.sound = new Audio();
+    this.sound.src = './assets/sounds/monster-8.wav';
+    this.sound.volume = 0.1;
     this.width = 84.529;
     this.height = 153 / 2;
     this.x = this.game.width;
@@ -66,6 +74,7 @@ export class Skeleton extends Enemy {
   update(deltatime) {
     super.update(deltatime);
     this.x -= this.game.gameSpeed;
+    this.sound.play();
   }
 }
 export class EggEnemy extends Enemy {
@@ -74,6 +83,9 @@ export class EggEnemy extends Enemy {
     this.game = game;
     this.width = 110.589;
     this.lives = 2;
+    this.sound = new Audio();
+    this.sound.src = './assets/sounds/monster-9.wav';
+    this.sound.volume = 0.1;
     this.height = 111;
     this.x = this.game.width;
     this.y = this.game.height - this.height - this.game.groundMargin;
@@ -83,7 +95,7 @@ export class EggEnemy extends Enemy {
   update(deltatime) {
     super.update(deltatime);
     this.x -= this.game.gameSpeed;
-
+    this.sound.play();
     //kunai collision
 
     this.game.knifes.forEach((kunai) => {
@@ -98,6 +110,7 @@ export class EggEnemy extends Enemy {
       }
       if (this.lives == 0) {
         this.markedForDeletion = true;
+        this.monsterhurt.play();
         this.game.score += 10;
       }
     });
@@ -112,6 +125,9 @@ export class DollEnemy extends Enemy {
     this.height = 150;
     this.x = Math.random() * (this.game.width / 2);
     this.y = 0;
+    this.sound = new Audio();
+    this.sound.src = './assets/sounds/ghost-groan.mp3';
+    this.sound.volume = 0.1;
     this.yMax = this.height;
     this.xMax = this.width;
     this.maxFrame = 29;
@@ -126,6 +142,7 @@ export class DollEnemy extends Enemy {
     if (this.x > this.game.width + this.width) this.markedForDeletion = true;
     if (this.y > this.yMax || this.y < 0) this.vy *= -1;
     if (this.x > this.xMax || this.x < -this.xMax) this.vx *= -1;
+    this.sound.play();
 
     this.game.fires.push(
       new Fire(this.game, this.x + this.width / 6, this.y + this.height / 6)
@@ -159,6 +176,15 @@ export class BatEnemy extends Enemy {
     this.maxFrame = 10;
     this.image = document.getElementById('batEnemy');
     this.angle = 0;
+    this.sound1 = new Audio();
+    this.sound3 = new Audio();
+    this.monsterhurt = new Audio();
+    this.swordHit = new Audio();
+    this.sound1.src = './assets/sounds/bat_01.ogg';
+    this.sound3.src = './assets/sounds/bat_03.ogg';
+    this.sound1.volume = 0.1;
+    this.sound3.volume = 0.1;
+    this.soundSelect = Math.floor(Math.random() * 3);
     this.angleSpeed = Math.random() * 0.2;
     this.curve = Math.random() * 2;
   }
@@ -179,5 +205,9 @@ export class BatEnemy extends Enemy {
         this.game.score += 5;
       }
     });
+
+    //Bat sounds
+    if (this.soundSelect == 1) this.sound1.play();
+    else this.sound3.play();
   }
 }
