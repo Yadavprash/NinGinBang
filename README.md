@@ -100,8 +100,8 @@ This file handles the player states which include:
 - SLIDING
 - THROWING
 - FALLING
-- JUMPTHROWING
-  It contains the **State** class which has various subclasses namely all the above-mentioned states' classes. These have a
+- JUMPTHROWING.
+It contains the **State** class which has various subclasses namely all the above-mentioned states' classes. These have a
   **constructor** with parameter state and game.
   **enter()** This method sets the frameY of the player sprite sheet to that specific state action.
   **handleInput()** This method is used to transition from one state to another.
