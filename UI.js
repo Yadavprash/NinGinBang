@@ -73,21 +73,6 @@ export class UI {
         this.game.width * 0.5,
         this.game.height * 0.5 + 60
       );
-      // } else {
-      //   context.textAlign = 'center';
-      //   context.font = this.fontSize * 2 + 'px ' + this.fontFamily;
-      //   context.fillText(
-      //     'Sheesh!',
-      //     this.game.width * 0.5,
-      //     this.game.height * 0.5 - 20
-      //   );
-      //   context.font = this.fontSize + 'px ' + this.fontFamily;
-      //   context.fillText(
-      //     'Better Luck Next Time',
-      //     this.game.width * 0.5,
-      //     this.game.height * 0.5 + 20
-      //   );
-      // }
       context.restore();
     }
   }
