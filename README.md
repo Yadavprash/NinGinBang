@@ -101,10 +101,11 @@ This file handles the player states which include:
 - THROWING
 - FALLING
 - JUMPTHROWING
-  It contains the **State** class which has various subclasses namely all the above-mentioned states' classes. These have a
-  **constructor** with parameter state and game.
-  **enter()** This method sets the frameY of the player sprite sheet to that specific state action.
-  **handleInput()** This method is used to transition from one state to another.
+
+It contains the **State** class which has various subclasses namely all the above-mentioned states' classes. These have a
+**constructor** with parameter state and game.
+**enter()** This method sets the frameY of the player sprite sheet to that specific state action.
+**handleInput()** This method is used to transition from one state to another.
 
 ###### 10._UI.js_:
 
@@ -180,14 +181,14 @@ Press Enter to restart the game when you die.
 
 #### Tutorials/Assets
 
-![Javascript Game Dev by FranksLaboratory](https://www.youtube.com/watch?v=CY0HE277IBM&list=PLYElE_rzEw_uryBrrzu2E626MY4zoXvx2)
-![Sprite Database](https://spritedatabase.net/)
-![2D game assets](https://bevouliin.com/)
-![OpenGameArt.org](https://opengameart.org/)
+[Javascript Game Dev by FranksLaboratory](https://www.youtube.com/watch?v=CY0HE277IBM&list=PLYElE_rzEw_uryBrrzu2E626MY4zoXvx2)
+[Sprite Database](https://spritedatabase.net/)
+[2D game assets](https://bevouliin.com/)
+[OpenGameArt.org](https://opengameart.org/)
 
 #### Important Articles
 
-![How to push your first project on Github](https://hackernoon.com/step-by-step-guide-to-push-your-first-project-on-github-fec1dce574f)
+[How to push your first project on Github](https://hackernoon.com/step-by-step-guide-to-push-your-first-project-on-github-fec1dce574f)
 
 ---
 
