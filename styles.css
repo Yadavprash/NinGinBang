@@ -53,3 +53,18 @@
   background: yellowgreen;
   opacity: 80%;
 }
+table,
+th {
+  border: 3px solid crimson;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 5px;
+}
+table {
+  position: absolute;
+  top: 20%;
+}
+h3 {
+  position: absolute;
+  top: 15%;
+}

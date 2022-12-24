@@ -1,6 +1,6 @@
 # NINGINBANG
 
-#### Video Demo: <URL HERE>
+#### Video Demo: <https://youtu.be/8BR97PDr0Xo>
 
 #### Description:
 
