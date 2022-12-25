@@ -159,7 +159,7 @@ export class DollEnemy extends Enemy {
       if (this.lives == 0) {
         this.markedForDeletion = true;
         this.game.dollFlag = true;
-        this.game.Score += 100;
+        this.game.score += 100;
         this.game.player.lifetime += 200;
       }
     });
