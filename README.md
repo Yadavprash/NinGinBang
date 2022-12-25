@@ -2,6 +2,8 @@
 
 #### Video Demo: <https://youtu.be/8BR97PDr0Xo>
 
+#### play here: <https://yadavprash.itch.io/ninginbang>
+
 #### Description:
 
 Side-scroller Fast-Paced Action Game with Javascript!
