@@ -12,6 +12,8 @@ Side-scroller Fast-Paced Action Game with Javascript!
 
 ---
 
+![PreviewOfGame](https://github.com/Yadavprash/Notion/blob/226d68ab358f0aea38a337e21def703973dd0360/Screenshot%20from%202023-05-20%2008-45-53.png)
+
 ##### Objective:
 
 1. To make my first Game after learning the basics of javascript. 2. Submit it as the final project of cs50x.
